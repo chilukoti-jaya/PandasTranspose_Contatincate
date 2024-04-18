@@ -1,0 +1,33 @@
+import pandas as pd
+# Assuming you have a DataFrame named 'df' with the required columns
+original_df = pd.DataFrame({'owner_id': [1, 2, 3], 'approver_id': [4, 2, 6], 'department': ['IT', 'HR', 'Finance']})
+
+# Melt the DataFrame to reshape it
+melted_df = pd.melt(original_df, id_vars=['department'], value_vars=['owner_id', 'approver_id'], var_name='employee_type', value_name='employee_id')
+
+# Rename the columns if desired
+new_df = melted_df.rename(columns={'employee_type': 'employee', 'employee_id': 'id'})
+
+
+
+df2= pd.DataFrame(new_df, columns=['id','department'])
+
+#testststsnew_df = new_df.rename(columns={'employee': 'employees', 'department': 'department'})
+
+df2['department'] = df2.groupby('id')['department'].transform(' | '.join)
+
+print(df2)
+'''
+Test_df = pd.DataFrame({'owner_id': [1, 2, 3], 'approver_id': [4, 2, 6], 'department': ['IT', 'HR', 'Finance']})
+
+
+Test_df['employee'] = Test_df['owner_id'].astype(str) + '_' + Test_df['approver_id'].astype(str)
+
+# Group by employee and concatenate departments with a separator
+#test_new_df = Test_df.groupby('employee')['department'].agg('|'.join).reset_index()
+final_df = Test_df.groupby('department')['employee'].agg('|'.join).reset_index()
+
+print(final_df)
+'''
+
+
